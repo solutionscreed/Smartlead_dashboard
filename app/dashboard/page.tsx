@@ -12,7 +12,7 @@ import { supabase } from "@/lib/supabase";
 
 export default function DashboardPage() {
   const [selectedSequencer, setSelectedSequencer] = useState("SupaMail");
-  const [selectedClient, setSelectedClient] = useState("All");
+  //const [selectedClient, setSelectedClient] = useState("All");
   const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState("Last 30 Days");
 
@@ -29,15 +29,15 @@ export default function DashboardPage() {
         .select("*")
         .eq("client_id", selectedClientId);
 
-      const campaignIds = campaignsData.map((c) => c.id);
+      const campaignIds = (campaignsData ?? []).map((c) => c.id);
       console.log("Campaign IDs:", campaignIds);
       
       const { data: statsData } = await supabase
         .from("campaign_stats")
         .select("*")
         .in("campaign_id", campaignIds);
-
-      setCampaigns(campaignsData);
+      console.log("Stats Data:", statsData);
+      setCampaigns(campaignsData );
       setStats(statsData);
     };
 
