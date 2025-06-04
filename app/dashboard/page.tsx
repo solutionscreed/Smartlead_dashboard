@@ -1,0 +1,79 @@
+"use client";
+
+import DashboardLayout from "@/components/layout/DashboardLayout";
+import DashboardFilters from "@/components/filters/DashboardFilters";
+import MetricCard from "@/components/ui/MetricCard";
+import ReplyRatePieChart from "@/components/charts/ReplyRatePieChart";
+import MonthSelector from "@/components/filters/MonthSelector";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
+
+
+
+export default function DashboardPage() {
+  const [selectedSequencer, setSelectedSequencer] = useState("SupaMail");
+  const [selectedClient, setSelectedClient] = useState("All");
+  const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState("Last 30 Days");
+
+  const [campaigns, setCampaigns] = useState([]);
+  const [stats, setStats] = useState([]);
+
+ 
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!selectedClientId) return;
+
+      const { data: campaignsData } = await supabase
+        .from("campaigns")
+        .select("*")
+        .eq("client_id", selectedClientId);
+
+      const campaignIds = campaignsData.map((c) => c.id);
+      console.log("Campaign IDs:", campaignIds);
+      
+      const { data: statsData } = await supabase
+        .from("campaign_stats")
+        .select("*")
+        .in("campaign_id", campaignIds);
+
+      setCampaigns(campaignsData);
+      setStats(statsData);
+    };
+
+    fetchData();
+  }, [selectedClientId]);
+
+  return (
+    <DashboardLayout>
+     <DashboardFilters
+  setSelectedSequencer={setSelectedSequencer}
+  setSelectedDate={setSelectedDate}
+  setSelectedClientId={setSelectedClientId}
+/>
+
+
+      <div className="grid grid-cols-3 gap-6">
+        <MetricCard title="Reply Rate">
+          <div className="flex items-center justify-between">
+            <ReplyRatePieChart data={stats} />
+            <MonthSelector />
+          </div>
+        </MetricCard>
+
+        <MetricCard title="Positive Sentiment">
+          <div className="flex items-center justify-between">
+            <ReplyRatePieChart data={stats} />
+            <MonthSelector />
+          </div>
+        </MetricCard>
+
+        <MetricCard title="Send Volume">
+          <div className="h-24 bg-gray-100 rounded-md flex items-center justify-center text-sm text-gray-500">
+            Stacked Bar Chart Placeholder
+          </div>
+        </MetricCard>
+      </div>
+    </DashboardLayout>
+  );
+}
