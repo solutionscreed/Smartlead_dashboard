@@ -7,6 +7,8 @@ import ReplyRatePieChart from "@/components/charts/ReplyRatePieChart";
 import MonthSelector from "@/components/filters/MonthSelector";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { calculateClientAggregateStats } from "@/lib/queries/calculateStats";
+import BounceAnalysisPieChart from "@/components/charts/BounceAnalysisPieChart";
 
 
 
@@ -18,7 +20,7 @@ export default function DashboardPage() {
 
   const [campaigns, setCampaigns] = useState([]);
   const [stats, setStats] = useState([]);
-
+  const [aggregatedStats, setAggregatedStats] = useState(null);
  
   useEffect(() => {
     const fetchData = async () => {
@@ -39,6 +41,12 @@ export default function DashboardPage() {
       console.log("Stats Data:", statsData);
       setCampaigns(campaignsData );
       setStats(statsData);
+      if(statsData && statsData.length > 0) {
+        const aggregatedStats = calculateClientAggregateStats(statsData);
+        console.log("Aggregated Stats:", aggregatedStats);
+        setAggregatedStats(aggregatedStats);
+        
+      }
     };
 
     fetchData();
@@ -56,17 +64,21 @@ export default function DashboardPage() {
       <div className="grid grid-cols-3 gap-6">
         <MetricCard title="Reply Rate">
           <div className="flex items-center justify-between">
-            <ReplyRatePieChart data={stats} />
-            <MonthSelector />
-          </div>
-        </MetricCard>
 
-        <MetricCard title="Positive Sentiment">
-          <div className="flex items-center justify-between">
-            <ReplyRatePieChart data={stats} />
+            <ReplyRatePieChart rawData={aggregatedStats?.replyRate} />
+            
             <MonthSelector />
           </div>
         </MetricCard>
+        <MetricCard title="Bounce Rate">
+          <div className="flex items-center justify-between">
+
+            <BounceAnalysisPieChart rawData={aggregatedStats?.bounceRate} />
+            
+            <MonthSelector />
+          </div>
+        </MetricCard>
+       
 
         <MetricCard title="Send Volume">
           <div className="h-24 bg-gray-100 rounded-md flex items-center justify-center text-sm text-gray-500">
