@@ -41,7 +41,7 @@ export default function DashboardPage() {
   }, [selectedClientId]);
 
   return (
-    <>
+    <div style={{ padding: '1rem'}}>
         <DashboardFilters
           setSelectedSequencer={setSelectedSequencer}
           setSelectedDate={setSelectedDate}
@@ -69,6 +69,6 @@ export default function DashboardPage() {
           </div>
         </MetricCard>
       </div>
-      </>
+      </div>
   );
 }
