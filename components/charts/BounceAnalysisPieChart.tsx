@@ -21,7 +21,7 @@ const BounceAnalysisPieChart = ({ rawData }: Props) => {
   const bounceRate = Number((rawRate ).toFixed(1));
 
   const deliveredCount = Math.max(100 - bounceRate, 0);
-  //const bounceRate = sentCount > 0 ? Number(((bounceCount / sentCount) * 100).toFixed(1)) : 0;
+
 
   const bounceData = [
     { name: "Bounced", value: bounceRate },

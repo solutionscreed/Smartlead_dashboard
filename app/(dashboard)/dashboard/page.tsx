@@ -1,6 +1,5 @@
 "use client";
 
-import DashboardLayout from "@/components/layout/DashboardLayout";
 import DashboardFilters from "@/components/filters/DashboardFilters";
 import MetricCard from "@/components/ui/MetricCard";
 import ReplyRatePieChart from "@/components/charts/ReplyRatePieChart";
@@ -9,8 +8,6 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { calculateClientAggregateStats } from "@/lib/queries/calculateStats";
 import BounceAnalysisPieChart from "@/components/charts/BounceAnalysisPieChart";
-
-
 
 export default function DashboardPage() {
   const [selectedSequencer, setSelectedSequencer] = useState("SupaMail");
@@ -39,7 +36,7 @@ export default function DashboardPage() {
         .select("*")
         .in("campaign_id", campaignIds);
       console.log("Stats Data:", statsData);
-      setCampaigns(campaignsData );
+      setCampaigns(campaignsData);
       setStats(statsData);
       if(statsData && statsData.length > 0) {
         const aggregatedStats = calculateClientAggregateStats(statsData);
@@ -53,15 +50,14 @@ export default function DashboardPage() {
   }, [selectedClientId]);
 
   return (
-    <DashboardLayout>
-     <DashboardFilters
-  setSelectedSequencer={setSelectedSequencer}
-  setSelectedDate={setSelectedDate}
-  setSelectedClientId={setSelectedClientId}
-/>
+    <>
+        <DashboardFilters
+          setSelectedSequencer={setSelectedSequencer}
+          setSelectedDate={setSelectedDate}
+          setSelectedClientId={setSelectedClientId}
+        />
 
-
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-3 gap-6 mt-8">
         <MetricCard title="Reply Rate">
           <div className="flex items-center justify-between">
 
@@ -86,6 +82,6 @@ export default function DashboardPage() {
           </div>
         </MetricCard>
       </div>
-    </DashboardLayout>
+      </>
   );
 }
