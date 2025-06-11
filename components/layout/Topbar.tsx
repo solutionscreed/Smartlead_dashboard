@@ -12,7 +12,7 @@ export default function Topbar() {
   };
 
   return (
-    <div className="h-60px w-full bg-white border-b px-6 py-3 flex justify-between items-center shadow-sm">
+    <div className="w-full bg-white border-b px-6 py-3 flex justify-between items-center shadow-sm">
       <h1 className="text-lg font-semibold text-gray-700">📊 Email Dashboard</h1>
       <button
         onClick={handleSignOut}
