@@ -8,7 +8,7 @@ import clsx from 'clsx';
 
 const links = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/inbox', label: 'Inbox', icon: Inbox },
+  { href: '/inbox', label: 'Leads', icon: Inbox },
 ];
 
 export default function Sidebar() {

@@ -6,7 +6,7 @@ export default function DashboardLayoutLayer({ children }: { children: React.Rea
   return (
     <div >
       <DashboardLayout>
-            <main style={{ flex: 1 }}>
+            <main style={{ flex: 1, padding: '1rem' }}>
                 {children}
             </main>
       </DashboardLayout>
