@@ -9,7 +9,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <Sidebar />
       <div className="flex-1 flex flex-col bg-gray-50">
         <Topbar />
-        <div className="">
+        <div className="p-6 space-y-6">
           {children}
         </div>
       </div>

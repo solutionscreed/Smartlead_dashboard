@@ -21,6 +21,7 @@ export async function createClient() {
             console.error('Error setting cookies:', cookiesToSet)
           }
         },
+        
       },
     }
   )
